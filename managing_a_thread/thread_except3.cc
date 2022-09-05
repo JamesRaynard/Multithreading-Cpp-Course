@@ -4,7 +4,8 @@
 class thread_guard {
     std::thread t;
 public:
-    explicit thread_guard(std::thread t) : t(std::move(t)) {}   // explicit constructor prevents conversions
+    // Constructor takes rvalue reference argument (std::thread is move-only)
+    explicit thread_guard(std::thread&& t) : t(std::move(t)) {}
 
     ~thread_guard() {
         if (t.joinable()) t.join();                   // Join thread if not already joined
