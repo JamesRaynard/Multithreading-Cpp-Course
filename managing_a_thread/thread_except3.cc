@@ -13,8 +13,17 @@ public:
 
     thread_guard(const thread_guard&) = delete;       // Deleted copy operators prevent copying
     thread_guard& operator=(const thread_guard&) = delete; 
-	thread_guard(thread_guard&&) noexcept = default;       // Default move operators to allow moving
-    thread_guard& operator=(thread_guard&&) noexcept = default;
+	thread_guard(thread_guard&&) noexcept = default;       // Default move constructor to allow moving
+	
+	// Move assignment operator
+	// Clear up the old thread before overwriting it
+    thread_guard& operator=(thread_guard&& arg) noexcept {
+        if (t.joinable()) {
+			t.join();
+		}
+        t = std::move(arg.t);
+        return *this;
+    }
 };
 
 // Callable object - thread entry point
