@@ -6,13 +6,12 @@
 // If a philosopher picks up the fork on their right,
 // that prevents the next philosopher from picking up their left fork.
 //
-// All the philosophers pick up their left fork at the same time
-// They wait to pick up their right fork (which is also their neighbour's left fork)
-// Their neighbour is waiting to pick up their own right fork
-// All the philosophers are waiting for their neighbour
+// The philosophers try to pick up both forks at the same time.
+// If they succeed, they can eat.
+// If not, both forks are available to their neighbours.
 //
-// The philosophers are blocked indefinitely.
-// Deadlock
+// All philosophers are able to eat.
+// No deadlock
 #include <iostream>
 #include <thread>
 #include <mutex>
