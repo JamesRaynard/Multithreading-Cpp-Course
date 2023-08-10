@@ -1,4 +1,4 @@
-// Use std::lock_guard to avoid scrambled output
+// Use std::mutex to avoid scrambled output
 // Find out what happens when an exception is thrown
 #include <iostream>
 #include <mutex>
