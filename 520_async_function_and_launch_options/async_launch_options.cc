@@ -1,5 +1,5 @@
 // async_launch_options.cc
-// The different launch options for std::sync()
+// The different launch options for std::async()
 #include <future>
 #include <iostream>
 #include <chrono>
