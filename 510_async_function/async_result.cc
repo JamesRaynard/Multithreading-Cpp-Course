@@ -19,12 +19,12 @@ int main()
 	// Call async() and store the returned future
 	auto result = std::async(fibonacci, 44);
 	
-	// Do some other work
-	bool finished = false;
-	
 	using namespace std::literals;
 	while (result.wait_for(1s) != std::future_status::ready) {
 		std::cout << "Waiting for the result...\n";
+		
+		// Do some other work
+		// ...
 	}
 	
 	// Call get() when we are ready
