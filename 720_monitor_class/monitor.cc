@@ -57,11 +57,11 @@ int main()
 
 	// Call its member functions
 	// Each member function locks separately
-	std::thread thr([&bank] {
-		bank.debit("Peter", 1000);
-		bank.credit("Paul", 1000);
-		bank.print("Peter");
-		bank.print("Paul");
+	std::thread thr([&bank_mon] {
+		bank_mon.debit("Peter", 1000);
+		bank_mon.credit("Paul", 1000);
+		bank_mon.print("Peter");
+		bank_mon.print("Paul");
 		});
 
 	thr.join();
