@@ -7,9 +7,6 @@
 #include <mutex>
 #include <chrono>
 
-// Mutex to protect output
-std::mutex mut;
-
 // The producer's task function takes a std::promise as argument
 void produce(std::promise<int>& px)
 {
@@ -30,7 +27,7 @@ void consume(std::shared_future<int>& fx)
 	// Get the result from the shared state
 	std::cout << "Thread " << std::this_thread::get_id() << " calling get()...\n";
     int x = fx.get();
-	std::lock_guard<std::mutex> lck_guard(mut);
+
     std::cout << "Thread " << std::this_thread::get_id() << " returns from calling get()\n";
 	std::cout << "Thread " << std::this_thread::get_id() << " has answer " << x << '\n';
 }
