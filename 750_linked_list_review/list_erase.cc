@@ -127,11 +127,6 @@ void List<T>::erase_first()
 template <typename T>
 void List<T>::erase(Node<T> *del_node)
 {
-	if (head->next.get() == del_node) {
-		head->next = nullptr;
-		return;
-	}
-	
 	// Find the predecessor to del_node
 	
 	// Get the front element
