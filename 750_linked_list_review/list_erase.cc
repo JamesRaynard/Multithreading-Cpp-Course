@@ -48,20 +48,16 @@ class List {
 	// Destructor
 	~List()
 	{
-		// The default destructor will call node A's destructor
-		// Deleting node A's unique_ptr will call node B's destructor
-		// Deleting node B's unique_ptr will call node C's destructor
+		// Deleting head will call its unique_ptr's destructor
+		// This destructor will destroy the first node
+		// Destroying the first node's unique_ptr will call the second node's destructor
+		// The second node's destructor will call unique_ptr's destructor
 		// ...
-		// With long lists, these recursive calls can make the stack overflow 
-		//
-		// Overwrite node A with node B
-		// This will release A's unique_ptr
-		// Node A will now own B's unique_ptr
-		// Overwrite node A with node C
-		// This will release A's unique_ptr (which used to be B's unique_ptr)
-		// Node A will now own C's unique_ptr
-		//
-		auto current = std::move(head->next);
+		// Instead, we overwrite the head with each element in turn
+		
+		// Get the first element
+		Node<T> *node = head->next.get();
+		
 		while (current) {
 			// Equivalent to current.reset(current->next.release()));
 			current = std::move(current->next);
@@ -77,12 +73,12 @@ void List<T>::traverse()
 	if (head->next == nullptr) {
 		std::cout << "Empty list\n";
 		return;
-    }
+	}
 	// Get the front element
-    Node<T> *prev = head;
+	Node<T> *prev = head;
 	
 	// Get the second element
-    Node<T> *node = prev->next.get();
+	Node<T> *node = prev->next.get();
 	
 	// Iterate over the nodes until we reach the back
 	while (node != nullptr) {
@@ -90,7 +86,7 @@ void List<T>::traverse()
 			// Move to the next node
 			prev = node;
 			node = node->next.get();
-    }
+	}
 }
 
 template <typename T>
@@ -98,22 +94,22 @@ void List<T>::push_back(T arg)
 {
 	// Find the back of the list
 	// Get the front element
-    Node<T> *prev = head;
+	Node<T> *prev = head;
 	
 	// Get the second element
-    Node<T> *node = prev->next.get();
+	Node<T> *node = prev->next.get();
 	
 	// Iterate over the nodes until we reach the back		
 	while (node != nullptr) {
 		// Move to the next node
 		prev = node;
 		node = node->next.get();
-    }
+	}
 
 	// Create the new node
 	auto new_node = std::make_unique<Node<T>>(arg);
 	
-    // Make this node the new last element	
+	// Make this node the new last element	
 	// Set the last-but-one node to point to it
 	prev->next = std::move(new_node);
 }
@@ -130,17 +126,17 @@ void List<T>::erase(Node<T> *del_node)
 	// Find the predecessor to del_node
 	
 	// Get the front element
-    Node<T> *prev = head;
+	Node<T> *prev = head;
 	
 	// Get the second element
-    Node<T> *node = prev->next.get();
+	Node<T> *node = prev->next.get();
 	
 	// Iterate over the nodes until we reach the predecessor		
 	while (node != del_node) {
 		// Move to the next node
 		prev = node;
 		node = node->next.get();
-    }
+	}
 	
 	prev->next = std::move(del_node->next);
 	del_node = nullptr;	
